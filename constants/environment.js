@@ -24,4 +24,5 @@ export const env = {
   actionGetMeasureFavorites: 'app/getMeasureFavorites',
   actionUpdateMeasureFavorites: 'app/updateMeasureFavorites',
   actionUpdateUserFeedback: 'app/updateUserFeedback',
-};
+}
+

@@ -8,7 +8,7 @@ import {
 } from 'react-native'
 import { connect } from 'dva'
 
-import { createAction, NavigationActions } from '../utils'
+import { createAction } from '../utils'
 
 @connect(({ app }) => ({ ...app }))
 class Login extends Component {

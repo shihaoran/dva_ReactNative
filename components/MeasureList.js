@@ -3,7 +3,8 @@
  */
 import React, { Component } from 'react'
 import { StyleSheet, View, ListView, ScrollView, RefreshControl } from 'react-native'
-import { connect } from 'dva'
+
+import { createAction } from '../utils'
 
 import ListItem from '../components/ListItem'
 
@@ -25,32 +26,32 @@ class MeasureList extends Component {
     />)
 
   _onRefresh = () => {
-    this.props.dispatch(NavigationActions.back())
+    this.props.dispatch(createAction('app/getMeasureList')(this.props.MenuId))
   }
 
   render() {
     return (
-      <ScrollView
-        style={styles.container}
-        refreshControl={
-          <RefreshControl
-            refreshing={this.props.fetching}
-            onRefresh={this._onRefresh}
-            tintColor="#ff0000"
-            title="Loading..."
-            titleColor="#00ff00"
-            colors={['#ff0000', '#00ff00', '#0000ff']}
-            progressBackgroundColor="#ffff00"
+      <View style={styles.container}>
+        <ScrollView
+          refreshControl={
+            <RefreshControl
+              refreshing={this.props.fetching}
+              onRefresh={this._onRefresh}
+              tintColor="#ff0000"
+              title="Loading..."
+              titleColor="#00ff00"
+              colors={['#ff0000', '#00ff00', '#0000ff']}
+              progressBackgroundColor="#ffff00"
+            />
+          }
+        >
+          <ListView
+            dataSource={this.props.data}
+            renderRow={this._renderRow}
+            renderSeparator={this._renderSeparator}
           />
-        }
-      >
-        <ListView
-          dataSource={this.props.data}
-          renderRow={this._renderRow}
-          renderSeparator={this._renderSeparator}
-        />
-      </ScrollView>
-
+        </ScrollView>
+      </View>
     )
   }
 }

@@ -40,10 +40,10 @@ export default class APP extends Component {
               <Scene key="tab2_1" component={Kpi} title="KPI报表" onLeft={() => alert('Left button!')} leftTitle="Left" />
             </Scene>
             <Scene key="tab3" initial title="产品线" icon={TabIcon}>
-              <Scene key="tab2_1" component={General} title="产品线报表" onLeft={() => alert('Left button!')} leftTitle="Left" />
+              <Scene key="tab3_1" component={General} title="产品线报表" onLeft={() => alert('Left button!')} leftTitle="Left" />
             </Scene>
             <Scene key="tab4" initial title="我的" icon={TabIcon}>
-              <Scene key="tab2_1" component={My} title="Tab #2_1" onLeft={() => alert('Left button!')} leftTitle="Left" />
+              <Scene key="tab4_1" component={My} title="Tab #2_1" onLeft={() => alert('Left button!')} leftTitle="Left" />
             </Scene>
           </Scene>
         </Scene>

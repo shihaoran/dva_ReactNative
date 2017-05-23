@@ -1,53 +1,33 @@
 import React, { Component } from 'react'
-import { StyleSheet, View, ListView, ScrollView, RefreshControl } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 import { connect } from 'dva'
 
-import ListItem from '../components/ListItem'
+import MeasureList from '../components/MeasureList'
 
 @connect(({ app }) => ({ ...app }))
 class General extends Component {
 
 
-  _renderSeparator = (sectionID, rowID, adjacentRowHighlighted) => (
-    <View
-      key={`${sectionID}-${rowID}`}
-      style={{
-        height: adjacentRowHighlighted ? 4 : 1,
-        backgroundColor: '#3B5998' }}
-    />)
-
-  _renderRow = (rowData, sectionID, rowID) => (
-    <ListItem
-      key={rowID}
-      data={rowData}
-    />)
-
-  _onRefresh = () => {
-    this.props.dispatch(NavigationActions.back())
+  getData = (id) => {
+    console.log(this.props.measureData)
   }
 
   render() {
+    const tabs = this.props.generalMenu.map((row, i) => {
+      console.log(row)
+      return (<MeasureList
+        tabLabel={row.title}
+        menuId={row.id}
+        fetching={this.props.fetching}
+        dispatch={this.props.dispatch}
+        data={this.getData(row.id)}
+      />)
+    })
+
     return (
-      <ScrollView
-        style={styles.container}
-        refreshControl={
-          <RefreshControl
-            refreshing={this.props.fetching}
-            onRefresh={this._onRefresh}
-            tintColor="#ff0000"
-            title="Loading..."
-            titleColor="#00ff00"
-            colors={['#ff0000', '#00ff00', '#0000ff']}
-            progressBackgroundColor="#ffff00"
-          />
-        }
-      >
-        <ListView
-          dataSource={this.state.dataSource}
-          renderRow={this._renderRow}
-          renderSeparator={this._renderSeparator}
-        />
-      </ScrollView>
+      <View>
+        {tabs}
+      </View>
 
     )
   }

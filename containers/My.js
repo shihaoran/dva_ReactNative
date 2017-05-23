@@ -29,7 +29,7 @@ class My extends Component {
         <Button title="Login" onPress={this.onLogin} />
         <Button title="GetTicket" onPress={this.onGetTicket} />
         <Button title="UpdateTicket" onPress={this.onForceUpdateToken} />
-        <Button title="UpdateTicket" onPress={this.onMenu} />
+        <Button title="GetMenu" onPress={this.onMenu} />
       </View>
     )
   }

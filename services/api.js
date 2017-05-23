@@ -11,6 +11,11 @@ const head = {
   UUID: env.uuid,
 }
 
+export async function netRequest({ requestType, params }) {
+  const response = await requestType(params)
+  return response
+}
+
 export function getMenuList({ user, token, type }) {
   return request(`${env.apiEndPoint}?at=${token}`, {
     method: 'POST',
