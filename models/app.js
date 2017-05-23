@@ -19,7 +19,13 @@ export default {
     setToken(state, { payload }) {
       console.log(payload)
       return { ...state, token: payload.ticket }
-    }
+    },
+    fetchingStart(state) {
+      return { ...state, fetching: true }
+    },
+    fetchingEnd(state) {
+      return { ...state, token: false }
+    },
   },
   effects: {
     *login({ payload }, { call, put }) {
@@ -57,6 +63,26 @@ export default {
         params: {
           user: app.userName,
           token: token,
+          type: payload.requestType,
+        }
+      }
+      yield put({
+        type: 'request',
+        payload: requestParam,
+      });
+    },
+
+    *getMeasureList({ payload }, { select, call, put }) {
+      const { token } = yield call(uuapService.getToken, payload)
+      const { app } = yield select(state => state);
+      const requestParam = {
+        requestType: apiService.getMenuList,
+        params: {
+          user: app.userName,
+          token: token,
+          menuId: ,
+          date: ,
+          offset: ,
           type: payload.requestType,
         }
       }

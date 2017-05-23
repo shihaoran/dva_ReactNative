@@ -1,11 +1,13 @@
+/**
+ * Created by shi on 2017/5/23.
+ */
 import React, { Component } from 'react'
 import { StyleSheet, View, ListView, ScrollView, RefreshControl } from 'react-native'
 import { connect } from 'dva'
 
 import ListItem from '../components/ListItem'
 
-@connect(({ app }) => ({ ...app }))
-class General extends Component {
+class MeasureList extends Component {
 
 
   _renderSeparator = (sectionID, rowID, adjacentRowHighlighted) => (
@@ -43,7 +45,7 @@ class General extends Component {
         }
       >
         <ListView
-          dataSource={this.state.dataSource}
+          dataSource={this.props.data}
           renderRow={this._renderRow}
           renderSeparator={this._renderSeparator}
         />
@@ -62,4 +64,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default General
+export default MeasureList
