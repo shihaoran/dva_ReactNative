@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { StyleSheet } from 'react-native'
+import { StyleSheet, ActivityIndicator } from 'react-native'
 import { connect } from 'dva'
 
 import ScrollableTabView, { ScrollableTabBar } from 'react-native-scrollable-tab-view'
@@ -26,16 +26,14 @@ class General extends Component {
   }
 
   render() {
-    const tabs = this.props.generalMenu.map((row, i) => {
-      return (<MeasureList
-        tabLabel={row.title}
-        key={row.id}
-        menuId={row.id}
-        fetching={this.props.fetching}
-        dispatch={this.props.dispatch}
-        data={this.props.measureData.rows}
-      />)
-    })
+    const tabs = this.props.generalMenu.map((row, i) => (<MeasureList
+      tabLabel={row.title}
+      key={row.id}
+      menuId={row.id}
+      fetching={this.props.fetching}
+      dispatch={this.props.dispatch}
+      data={this.props.measureData.rows}
+    />))
 
     return (
       <ScrollableTabView
@@ -45,6 +43,11 @@ class General extends Component {
         locked
       >
         {tabs}
+        <ActivityIndicator
+          animating={this.props.fetching}
+          style={[styles.centering, { height: 80 }]}
+          size="large"
+        />
       </ScrollableTabView>
 
     )
@@ -55,6 +58,11 @@ const styles = StyleSheet.create({
   container: {
     marginTop: 50,
     marginBottom: 50,
+  },
+  centering: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: 8,
   },
 })
 

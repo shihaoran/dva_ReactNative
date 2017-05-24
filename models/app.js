@@ -44,7 +44,7 @@ export default {
       return { ...state, fetching: true }
     },
     fetchingEnd(state) {
-      return { ...state, token: false }
+      return { ...state, fetching: false }
     },
   },
   effects: {
@@ -93,6 +93,7 @@ export default {
     },
 
     * getMeasureList({ payload }, { select, call, put }) {
+      yield put({ type: 'fetchingStart' })
       const { token } = yield call(uuapService.getToken, payload)
       const { app } = yield select(state => state)
       const requestParam = {
@@ -112,6 +113,7 @@ export default {
           data: response.Return,
         },
       })
+      yield put({ type: 'fetchingEnd' })
     },
   },
 }
