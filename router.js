@@ -21,11 +21,17 @@ const reducerCreate = params => {
 const styles = StyleSheet.create({
   tabBarStyle: {
     backgroundColor: '#eee',
+    borderTopWidth: 0.5,
+    borderColor: '#b7b7b7',
     paddingBottom: 15,
     paddingTop: 20,
-    borderColor: '#108ee9',
+  },
+  navigationBarStyle: {
+    backgroundColor: '#108ee9',
+    borderBottomWidth: 0,
   },
 })
+
 
 export default class APP extends Component {
   render() {
@@ -33,17 +39,17 @@ export default class APP extends Component {
       <Scene key="modal" component={Modal} >
         <Scene key="root" hideNavBar>
           <Scene key="tabbar" tabs tabBarStyle={styles.tabBarStyle}>
-            <Scene key="tab1" title="收藏" icon={TabIcon} navigationBarStyle={{ backgroundColor: 'red' }} titleStyle={{ color: 'white' }}>
-              <Scene key="tab1_1" component={Favorite} title="Tab #1_1" onRight={() => alert('Right button')} rightTitle="Right" />
+            <Scene key="tab1" title="收藏" icon={TabIcon} navigationBarStyle={styles.navigationBarStyle} titleStyle={{ color: 'white' }}>
+              <Scene key="tab1_1" component={Favorite} title="收藏" onRight={() => alert('Right button')} rightTitle="Right" />
             </Scene>
-            <Scene key="tab2" initial title="KPI" icon={TabIcon}>
+            <Scene key="tab2" initial title="KPI" icon={TabIcon} navigationBarStyle={styles.navigationBarStyle} titleStyle={{ color: 'white' }}>
               <Scene key="tab2_1" component={Kpi} title="KPI报表" onLeft={() => alert('Left button!')} leftTitle="Left" />
             </Scene>
-            <Scene key="tab3" initial title="产品线" icon={TabIcon}>
+            <Scene key="tab3" initial title="产品线" icon={TabIcon} navigationBarStyle={styles.navigationBarStyle} titleStyle={{ color: 'white' }}>
               <Scene key="tab3_1" component={General} title="产品线报表" onLeft={() => alert('Left button!')} leftTitle="Left" />
             </Scene>
-            <Scene key="tab4" initial title="我的" icon={TabIcon}>
-              <Scene key="tab4_1" component={My} title="Tab #2_1" onLeft={() => alert('Left button!')} leftTitle="Left" />
+            <Scene key="tab4" initial title="我的" icon={TabIcon} navigationBarStyle={styles.navigationBarStyle} titleStyle={{ color: 'white' }}>
+              <Scene key="tab4_1" component={My} title="我的" onLeft={() => alert('Left button!')} leftTitle="Left" />
             </Scene>
           </Scene>
         </Scene>

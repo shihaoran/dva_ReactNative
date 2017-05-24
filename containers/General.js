@@ -39,7 +39,7 @@ class General extends Component {
 
     return (
       <ScrollableTabView
-        style={{ marginTop: 50 }}
+        style={styles.container}
         onChangeTab={this.onChangeTab}
         renderTabBar={() => <ScrollableTabBar />}
         locked
@@ -53,10 +53,8 @@ class General extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'flex-start',
+    marginTop: 50,
+    marginBottom: 50,
   },
 })
 

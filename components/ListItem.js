@@ -8,20 +8,35 @@ import {
   StyleSheet,
 } from 'react-native'
 
+import Swipeout from 'react-native-swipeout'
+
 
 const ListItem = (props) => {
-  const b1 = parseInt(props.data.b1) >= 0
-  const b2 = parseInt(props.data.b2) >= 0
+  const b1 = parseFloat(props.data.b1) >= 0
+  const b2 = parseFloat(props.data.b2) >= 0
+
+  const swipeoutBtns = [
+    {
+      text: '收藏',
+    },
+  ]
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.header}>{props.data.title}</Text>
-      <View style={styles.content}>
-        <Text style={styles.value}>{`${props.data.value} ${props.data.unit}`}</Text>
-        <Text style={b1 ? styles.valuePositive : styles.valueNegative} >{`${props.data.b1Name}:${props.data.b1}%`}</Text>
-        <Text style={b2 ? styles.valuePositive : styles.valueNegative} >{`${props.data.b2Name}:${props.data.b2}%`}</Text>
+    <Swipeout
+      right={swipeoutBtns}
+      autoClose
+    >
+      <View style={styles.container}>
+        <Text style={styles.header}>{props.data.title}</Text>
+        <View style={styles.content}>
+          <Text style={styles.value}>{`${props.data.value} ${props.data.unit}`}</Text>
+          <View style={styles.percentageBlock}>
+            <Text style={b1 ? styles.valuePositive : styles.valueNegative} >{`${props.data.b1Name}:${props.data.b1}%`}</Text>
+            <Text style={b2 ? styles.valuePositive : styles.valueNegative} >{`${props.data.b2Name}:${props.data.b2}%`}</Text>
+          </View>
+        </View>
       </View>
-    </View>
+    </Swipeout>
   )
 }
 
@@ -34,38 +49,53 @@ const styles = StyleSheet.create({
   },
   header: {
     flexDirection: 'row',
-    height: 20,
+    height: 22,
     position: 'absolute',
-    left: 0,
-    top: 0,
-    fontSize: 15,
+    left: 5,
+    top: 5,
+    fontSize: 18,
     color: '#404040',
   },
   content: {
     flexDirection: 'row',
     height: 30,
     position: 'absolute',
-    left: 0,
+    left: 5,
+    right: 5,
     bottom: 0,
   },
   value: {
     height: 30,
     fontSize: 20,
     color: '#108ee9',
+    fontWeight: 'bold',
   },
   valuePositive: {
     backgroundColor: '#76d0a3',
 
     height: 20,
-    width: 120,
+    width: 105,
     fontSize: 15,
+
+    marginHorizontal: 5,
   },
   valueNegative: {
     backgroundColor: '#f46e65',
 
     height: 20,
-    width: 120,
+    width: 105,
     fontSize: 15,
+
+    marginHorizontal: 5,
+  },
+  percentageBlock: {
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+    height: 20,
+    width: 250,
+    position: 'absolute',
+    right: 5,
+    bottom: 5,
   },
 })
 

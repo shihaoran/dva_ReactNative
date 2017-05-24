@@ -23,8 +23,8 @@ class MeasureList extends Component {
     <View
       key={`${sectionID}-${rowID}`}
       style={{
-        height: adjacentRowHighlighted ? 4 : 1,
-        backgroundColor: '#3B5998' }}
+        height: 0.5,
+        backgroundColor: '#b7b7b7' }}
     />)
 
   _renderRow = (rowData, sectionID, rowID) => (

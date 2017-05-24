@@ -29,6 +29,7 @@ export default {
       return { ...state, token: payload.ticket }
     },
     setMenu(state, { payload }) {
+      console.log(payload)
       if (payload.requestType === 'kpi') {
         return { ...state, kpiMenu: payload.data }
       } else if (payload.requestType === 'general') {
@@ -80,6 +81,13 @@ export default {
         payload: {
           requestType: payload.requestType === env.menuType.kpi ? 'kpi' : 'general',
           data: response.Return,
+        },
+      })
+      yield put({
+        type: 'getMeasureList',
+        payload: {
+          menuId: response.Return[0].id,
+          menuType: 1,
         },
       })
     },
