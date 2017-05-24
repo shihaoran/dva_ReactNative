@@ -38,7 +38,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     left: 0,
     top: 0,
-    fontSize: 30,
+    fontSize: 15,
     color: '#404040',
   },
   content: {
@@ -50,21 +50,21 @@ const styles = StyleSheet.create({
   },
   value: {
     height: 30,
-    fontSize: 30,
+    fontSize: 20,
     color: '#108ee9',
   },
   valuePositive: {
-    backgroundColor: '#00a854',
+    backgroundColor: '#76d0a3',
 
     height: 20,
-    width: 40,
+    width: 120,
     fontSize: 15,
   },
   valueNegative: {
-    backgroundColor: '#f04134',
+    backgroundColor: '#f46e65',
 
     height: 20,
-    width: 40,
+    width: 120,
     fontSize: 15,
   },
 })

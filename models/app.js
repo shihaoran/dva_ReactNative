@@ -15,10 +15,10 @@ export default {
     generalMenu: [],
     kpiMenu: [],
 
-    generalDate: '',
-    kpiDate: '',
+    generalDate: '2017-5-20',
+    kpiDate: '2017-5-20',
 
-    measureData: new Map(),
+    measureData: [],
   },
   reducers: {
     setUserName(state, { payload }) {
@@ -35,6 +35,9 @@ export default {
         return { ...state, generalMenu: payload.data }
       }
       return { ...state }
+    },
+    setMeasureData(state, { payload }) {
+      return { ...state, measureData: payload.data }
     },
     fetchingStart(state) {
       return { ...state, fetching: true }
@@ -85,18 +88,22 @@ export default {
       const { token } = yield call(uuapService.getToken, payload)
       const { app } = yield select(state => state)
       const requestParam = {
-        requestType: apiService.getMenuList,
+        requestType: apiService.getMeasureList,
         params: {
           user: app.userName,
           token,
           menuId: payload.menuId,
-          date: kpiDate,
+          date: payload.menuType === env.menuType.kpi ? app.kpiDate : app.generalDate,
           offset: 0,
-          type: payload.requestType,
         },
       }
-      const { data } = yield call(apiService.netRequest, requestParam)
-      console.log(data)
+      const response = yield call(apiService.netRequest, { ...requestParam })
+      yield put({
+        type: 'setMeasureData',
+        payload: {
+          data: response.Return,
+        },
+      })
     },
   },
 }
