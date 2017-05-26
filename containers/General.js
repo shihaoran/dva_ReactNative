@@ -3,6 +3,7 @@ import { StyleSheet, ActivityIndicator } from 'react-native'
 import { connect } from 'dva'
 
 import ScrollableTabView, { ScrollableTabBar } from 'react-native-scrollable-tab-view'
+import { Calendar } from 'react-native-calendars'
 
 import MeasureList from '../components/MeasureList'
 
@@ -49,6 +50,7 @@ class General extends Component {
           size="large"
         />
       </ScrollableTabView>
+
 
     )
   }

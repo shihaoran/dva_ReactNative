@@ -2,13 +2,35 @@ import React, { Component } from 'react'
 import { StyleSheet, View, Image, Button } from 'react-native'
 import { connect } from 'dva'
 
-@connect()
+import { Calendar } from 'react-native-calendars'
+import Modal from 'react-native-modalbox'
+
+import { createAction } from '../utils'
+
+@connect(({ app }) => ({ ...app }))
 class Kpi extends Component {
+
+  onDayPress = (id) => {
+    console.log(id)
+  }
+  onClosed = () => {
+    this.props.dispatch(createAction('app/closeCalendar')())
+  }
 
   render() {
     return (
       <View style={styles.container}>
-        <Button title="Goto Detail"/>
+        <Modal
+          style={styles.modal}
+          ref="modal1"
+          isOpen={this.props.isVisibleCalendar}
+          onClosed={this.onClosed}
+        >
+          <Calendar
+            onDayPress={this.onDayPress}
+            hideExtraDays
+          />
+        </Modal>
       </View>
     )
   }
@@ -23,6 +45,12 @@ const styles = StyleSheet.create({
   icon: {
     width: 32,
     height: 32,
+  },
+  modal: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: 300,
+    width: 300,
   },
 })
 

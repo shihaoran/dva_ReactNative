@@ -15,8 +15,9 @@ export default {
     generalMenu: [],
     kpiMenu: [],
 
-    generalDate: '2017-5-20',
-    kpiDate: '2017-5-20',
+    generalDate: '2017-05-20',
+    kpiDate: '2017-05-20',
+    isVisibleCalendar: false,
 
     measureData: [],
   },
@@ -45,6 +46,12 @@ export default {
     },
     fetchingEnd(state) {
       return { ...state, fetching: false }
+    },
+    showCalendar(state) {
+      return { ...state, isVisibleCalendar: true }
+    },
+    closeCalendar(state) {
+      return { ...state, isVisibleCalendar: false }
     },
   },
   effects: {
