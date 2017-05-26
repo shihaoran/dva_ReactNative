@@ -34,7 +34,10 @@ class MeasureList extends Component {
     />)
 
   _onRefresh = () => {
-    this.props.dispatch(createAction('app/getMeasureList')(this.props.MenuId))
+    this.props.dispatch(createAction('app/getMeasureList')({
+      menuId: this.props.menuId,
+      menuType: this.props.menuType,
+    }))
   }
 
   render() {

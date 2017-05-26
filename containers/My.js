@@ -20,8 +20,10 @@ class My extends Component {
   }
 
   onMenu = () => {
-    this.props.dispatch(createAction('app/getMenuList')({requestType:1}))
+    this.props.dispatch(createAction('app/getMenuList')({ requestType: 1 }))
+    this.props.dispatch(createAction('app/getMenuList')({ requestType: 0 }))
   }
+
 
   render() {
     return (

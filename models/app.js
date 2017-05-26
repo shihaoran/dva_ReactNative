@@ -13,9 +13,12 @@ export default {
     token: '',
 
     generalMenu: [],
+    generalActiveMenu: '',
     kpiMenu: [],
+    kpiActiveMenu: '',
 
-    generalDate: '2017-05-20',
+    favoriteDate: '2017-05-21',
+    generalDate: '2017-05-21',
     kpiDate: '2017-05-20',
     isVisibleCalendar: false,
 
@@ -31,10 +34,10 @@ export default {
     },
     setMenu(state, { payload }) {
       console.log(payload)
-      if (payload.requestType === 'kpi') {
-        return { ...state, kpiMenu: payload.data }
-      } else if (payload.requestType === 'general') {
-        return { ...state, generalMenu: payload.data }
+      if (payload.requestType === env.menuType.kpi) {
+        return { ...state, kpiMenu: payload.data, kpiActiveMenu: payload.data[0].id }
+      } else if (payload.requestType === env.menuType.general) {
+        return { ...state, generalMenu: payload.data, generalActiveMenu: payload.data[0].id }
       }
       return { ...state }
     },
@@ -52,6 +55,22 @@ export default {
     },
     closeCalendar(state) {
       return { ...state, isVisibleCalendar: false }
+    },
+    setDate(state, { payload }) {
+      if (payload.requestType === env.menuType.kpi) {
+        return { ...state, kpiDate: payload.data }
+      } else if (payload.requestType === env.menuType.general) {
+        return { ...state, generalDate: payload.data }
+      }
+      return { ...state }
+    },
+    setActiveMenu(state, { payload }) {
+      if (payload.requestType === env.menuType.kpi) {
+        return { ...state, kpiActiveMenu: payload.data }
+      } else if (payload.requestType === env.menuType.general) {
+        return { ...state, generalActiveMenu: payload.data }
+      }
+      return { ...state }
     },
   },
   effects: {
@@ -86,7 +105,7 @@ export default {
       yield put({
         type: 'setMenu',
         payload: {
-          requestType: payload.requestType === env.menuType.kpi ? 'kpi' : 'general',
+          requestType: payload.requestType,
           data: response.Return,
         },
       })

@@ -1,46 +1,46 @@
 import React, {
   PropTypes,
-} from 'react';
+} from 'react'
 import {
   Text,
   View,
   Image,
-} from 'react-native';
-
+} from 'react-native'
+import {router} from '../constants/router'
 const imageList = [
-    require('../images/favorite.png'),
-    require('../images/kpi.png'),
-    require('../images/general.png'),
-    require('../images/my.png'),
-];
+  require('../images/favorite.png'),
+  require('../images/kpi.png'),
+  require('../images/general.png'),
+  require('../images/my.png'),
+]
 
 const propTypes = {
   selected: PropTypes.bool,
-  title: PropTypes.string,
-};
+  sceneKey: PropTypes.string,
+}
 
 const TabIcon = (props) => {
-  var icon;
-  if (props.title === '收藏' ) {
-    icon = imageList[0];
-  } else if (props.title === 'KPI' ) {
-    icon = imageList[1];
-  } else if (props.title === '产品线' ) {
-    icon = imageList[2];
-  } else if (props.title === '我的' ) {
-    icon = imageList[3];
+  let icon
+  if (props.sceneKey === router.favoriteTabKey) {
+    icon = imageList[0]
+  } else if (props.sceneKey === router.kpiTabKey) {
+    icon = imageList[1]
+  } else if (props.sceneKey === router.generalTabKey) {
+    icon = imageList[2]
+  } else if (props.sceneKey === router.myTabKey) {
+    icon = imageList[3]
   }
-  
+
   return (
-    <View style={{ flex:1, alignItems: 'center' }}>
-      <Image source={icon} style={{ width: 25, height: 25, tintColor: props.selected ? '#108ee9' : 'gray' }}/>
+    <View style={{ flex: 1, alignItems: 'center' }}>
+      <Image source={icon} style={{ width: 25, height: 25, tintColor: props.selected ? '#108ee9' : 'gray' }} />
       <Text style={{ color: props.selected ? '#108ee9' : 'gray' }}>
         {props.title}
       </Text>
     </View>
   )
-};
+}
 
-TabIcon.propTypes = propTypes;
+TabIcon.propTypes = propTypes
 
-export default TabIcon;
+export default TabIcon

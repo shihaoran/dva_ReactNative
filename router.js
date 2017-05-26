@@ -1,9 +1,7 @@
 import React, { Component } from 'react'
 
-import { AppRegistry, Navigator, StyleSheet, Text, View } from 'react-native'
+import { StyleSheet } from 'react-native'
 import { Scene, Router, TabBar, Modal, Schema, Actions, Reducer, ActionConst } from 'react-native-router-flux'
-
-import { connect } from 'dva'
 
 import Favorite from './containers/Favorite'
 import Kpi from './containers/Kpi'
@@ -11,10 +9,12 @@ import General from './containers/General'
 import My from './containers/My'
 
 import TabIcon from './components/TabIcon'
+import ConnectedNavBar from './components/ConnectedNavBar'
 
-import { createAction } from './utils'
+import { router } from './constants/router'
 
 const reducerCreate = params => {
+  console.log(params)
   const defaultReducer = Reducer(params)
   return (state, action) => {
     console.log('ACTION:', action)
@@ -22,49 +22,51 @@ const reducerCreate = params => {
   }
 }
 
-@connect(({ app }) => ({ ...app }))
 export default class APP extends Component {
-
-
-  onRight = () => {
-    this.props.dispatch(createAction('app/showCalendar')())
-  }
-
-
   render() {
     return (<Router createReducer={reducerCreate} sceneStyle={{ backgroundColor: '#F7F7F7' }}>
       <Scene key="modal" component={Modal} >
         <Scene key="root" hideNavBar>
           <Scene key="tabbar" tabs tabBarStyle={styles.tabBarStyle}>
-            <Scene key="tab1" title="收藏" icon={TabIcon} navigationBarStyle={styles.navigationBarStyle} titleStyle={{ color: 'white' }}>
-              <Scene key="tab1_1" component={Favorite} title="收藏" onRight={() => alert('Right button')} rightTitle="Right" />
-            </Scene>
-            <Scene key="tab2" initial title="KPI" icon={TabIcon} navigationBarStyle={styles.navigationBarStyle} titleStyle={{ color: 'white' }}>
+            <Scene key={router.favoriteTabKey} title={router.favoriteTabTitle} icon={TabIcon} navigationBarStyle={styles.navigationBarStyle} titleStyle={{ color: 'white' }}>
               <Scene
-                key="tab2_1"
+                key={router.favoriteKey}
+                component={Favorite}
+                navBar={ConnectedNavBar}
+                title={router.favoriteTitle}
+                rightButtonTextStyle={styles.rightTitleTextStyle}
+                rightButtonImage={require('./images/calendar.png')}
+                rightButtonIconStyle={styles.rightTitleImageStyle}
+              />
+            </Scene>
+            <Scene key={router.kpiTabKey} initial title={router.kpiTabTitle} icon={TabIcon} navigationBarStyle={styles.navigationBarStyle} titleStyle={{ color: 'white' }}>
+              <Scene
+                key={router.kpiKey}
                 component={Kpi}
-                title="KPI报表"
-                onRight={this.onRight}
-                rightTitle={this.props.kpiDate}
+                navBar={ConnectedNavBar}
+                title={router.kpiTitle}
                 rightButtonTextStyle={styles.rightTitleTextStyle}
                 rightButtonImage={require('./images/calendar.png')}
                 rightButtonIconStyle={styles.rightTitleImageStyle}
               />
             </Scene>
-            <Scene key="tab3" initial title="产品线" icon={TabIcon} navigationBarStyle={styles.navigationBarStyle} titleStyle={{ color: 'white' }}>
+            <Scene key={router.generalTabKey} title={router.generalTabTitle} icon={TabIcon} navigationBarStyle={styles.navigationBarStyle} titleStyle={{ color: 'white' }}>
               <Scene
-                key="tab3_1"
+                key={router.generalKey}
                 component={General}
-                title="产品线报表"
-                onRight={() => alert('Left button!')}
-                rightTitle={this.props.generalDate}
+                navBar={ConnectedNavBar}
+                title={router.generalTitle}
                 rightButtonTextStyle={styles.rightTitleTextStyle}
                 rightButtonImage={require('./images/calendar.png')}
                 rightButtonIconStyle={styles.rightTitleImageStyle}
               />
             </Scene>
-            <Scene key="tab4" initial title="我的" icon={TabIcon} navigationBarStyle={styles.navigationBarStyle} titleStyle={{ color: 'white' }}>
-              <Scene key="tab4_1" component={My} title="我的" onLeft={() => alert('Left button!')} leftTitle="Left" />
+            <Scene key={router.myTabKey} title={router.myTabTitle} icon={TabIcon} navigationBarStyle={styles.navigationBarStyle} titleStyle={{ color: 'white' }}>
+              <Scene
+                key={router.myKey}
+                component={My}
+                title={router.myTitle}
+              />
             </Scene>
           </Scene>
         </Scene>

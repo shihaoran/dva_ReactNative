@@ -18,6 +18,7 @@ export default async function request(url, options) {
 
   const status = checkStatus(response)
   const data = await response.json()
+  console.log(data)
   if (status) {
     return data
   }

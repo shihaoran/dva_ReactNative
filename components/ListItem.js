@@ -74,19 +74,19 @@ const styles = StyleSheet.create({
     backgroundColor: '#76d0a3',
 
     height: 20,
-    width: 105,
+    width: 106,
     fontSize: 15,
 
-    marginHorizontal: 5,
+    marginHorizontal: 4,
   },
   valueNegative: {
     backgroundColor: '#f46e65',
 
     height: 20,
-    width: 105,
+    width: 106,
     fontSize: 15,
 
-    marginHorizontal: 5,
+    marginHorizontal: 4,
   },
   percentageBlock: {
     flexDirection: 'row',
