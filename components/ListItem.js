@@ -10,6 +10,8 @@ import {
 
 import Swipeout from 'react-native-swipeout'
 
+import { colorTheme } from '../constants/color'
+
 
 const ListItem = (props) => {
   const b1 = parseFloat(props.data.b1) >= 0
@@ -42,7 +44,7 @@ const ListItem = (props) => {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#fff',
+    backgroundColor: colorTheme.listItemBackground,
     height: 60,
     paddingHorizontal: 20,
     paddingVertical: 10,
@@ -67,11 +69,11 @@ const styles = StyleSheet.create({
   value: {
     height: 30,
     fontSize: 20,
-    color: '#108ee9',
+    color: colorTheme.listItemValue,
     fontWeight: 'bold',
   },
   valuePositive: {
-    backgroundColor: '#76d0a3',
+    backgroundColor: colorTheme.listItemPositiveValue,
 
     height: 20,
     width: 106,
@@ -80,7 +82,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 4,
   },
   valueNegative: {
-    backgroundColor: '#f46e65',
+    backgroundColor: colorTheme.listItemNegativeValue,
 
     height: 20,
     width: 106,

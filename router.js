@@ -3,6 +3,7 @@ import React, { Component } from 'react'
 import { StyleSheet } from 'react-native'
 import { Scene, Router, TabBar, Modal, Schema, Actions, Reducer, ActionConst } from 'react-native-router-flux'
 
+import Launch from './containers/Launch'
 import Favorite from './containers/Favorite'
 import Kpi from './containers/Kpi'
 import General from './containers/General'
@@ -12,6 +13,7 @@ import TabIcon from './components/TabIcon'
 import ConnectedNavBar from './components/ConnectedNavBar'
 
 import { router } from './constants/router'
+import { colorTheme } from './constants/color'
 
 const reducerCreate = params => {
   console.log(params)
@@ -24,10 +26,11 @@ const reducerCreate = params => {
 
 export default class APP extends Component {
   render() {
-    return (<Router createReducer={reducerCreate} sceneStyle={{ backgroundColor: '#F7F7F7' }}>
+    return (<Router createReducer={reducerCreate} sceneStyle={{ backgroundColor: colorTheme.backgroundColor }}>
       <Scene key="modal" component={Modal} >
         <Scene key="root" hideNavBar>
-          <Scene key="tabbar" tabs tabBarStyle={styles.tabBarStyle}>
+          <Scene key="launch" component={Launch}  hideNavBar/>
+          <Scene key="tabbar" initial tabs tabBarStyle={styles.tabBarStyle}>
             <Scene key={router.favoriteTabKey} title={router.favoriteTabTitle} icon={TabIcon} navigationBarStyle={styles.navigationBarStyle} titleStyle={{ color: 'white' }}>
               <Scene
                 key={router.favoriteKey}
@@ -78,22 +81,22 @@ export default class APP extends Component {
 
 const styles = StyleSheet.create({
   tabBarStyle: {
-    backgroundColor: '#eee',
+    backgroundColor: colorTheme.tabBarBackground,
     borderTopWidth: 0.5,
-    borderColor: '#b7b7b7',
+    borderColor: colorTheme.tabBarBorder,
     paddingBottom: 15,
     paddingTop: 20,
   },
   navigationBarStyle: {
-    backgroundColor: '#108ee9',
+    backgroundColor: colorTheme.navBarBackground,
     borderBottomWidth: 0,
   },
   rightTitleTextStyle: {
-    color: '#fff',
+    color: colorTheme.navBarText,
     fontSize: 14,
   },
   rightTitleImageStyle: {
-    tintColor: '#fff',
+    tintColor: colorTheme.navBarText,
     marginRight: 79,
     marginBottom: 18,
     height: 18,

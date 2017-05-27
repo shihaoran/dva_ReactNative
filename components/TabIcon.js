@@ -6,7 +6,9 @@ import {
   View,
   Image,
 } from 'react-native'
-import {router} from '../constants/router'
+import { router } from '../constants/router'
+import { colorTheme } from '../constants/color'
+
 const imageList = [
   require('../images/favorite.png'),
   require('../images/kpi.png'),
@@ -33,8 +35,8 @@ const TabIcon = (props) => {
 
   return (
     <View style={{ flex: 1, alignItems: 'center' }}>
-      <Image source={icon} style={{ width: 25, height: 25, tintColor: props.selected ? '#108ee9' : 'gray' }} />
-      <Text style={{ color: props.selected ? '#108ee9' : 'gray' }}>
+      <Image source={icon} style={{ width: 25, height: 25, tintColor: props.selected ? colorTheme.tabBarOnSelect : colorTheme.tabBarNormal }} />
+      <Text style={{ color: props.selected ? colorTheme.tabBarOnSelect : colorTheme.tabBarNormal }}>
         {props.title}
       </Text>
     </View>
