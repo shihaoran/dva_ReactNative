@@ -1,4 +1,7 @@
-import { createAction, NavigationActions } from '../utils'
+import { Actions } from 'react-native-router-flux'
+import Toast from 'react-native-root-toast'
+import { AsyncStorage } from 'react-native'
+import { createAction } from '../utils'
 
 import * as uuapService from '../services/uuap'
 import * as apiService from '../services/api'
@@ -26,7 +29,7 @@ export default {
   },
   reducers: {
     setUserName(state, { payload }) {
-      return { ...state, userName: payload.login.username }
+      return { ...state, userName: payload.login.username, login: true }
     },
     setToken(state, { payload }) {
       console.log(payload)
@@ -77,7 +80,9 @@ export default {
     * login({ payload }, { call, put }) {
       const login = yield call(uuapService.login, payload)
       if (login.status) {
+        yield call(AsyncStorage.setItem, 'ifLogin', 'true')
         yield put(createAction('setUserName')({ login }))
+        yield put(createAction('getInitData')())
       }
     },
     * getTicket({ payload }, { call, put }) {
@@ -140,6 +145,32 @@ export default {
         },
       })
       yield put({ type: 'fetchingEnd' })
+    },
+    * getInitData({ payload }, { select, call, put }) {
+      try {
+        yield put({
+          type: 'getMenuList',
+          payload: {
+            requestType: env.menuType.kpi,
+          },
+        })
+        yield put({
+          type: 'getMenuList',
+          payload: {
+            requestType: env.menuType.general,
+          },
+        })
+        Actions.tabbar({ type: 'reset' })
+      } catch (error) {
+        Toast.show('This is a message', {
+          duration: Toast.durations.LONG,
+          position: Toast.positions.BOTTOM,
+          shadow: true,
+          animation: true,
+          hideOnPress: true,
+          delay: 0,
+        })
+      }
     },
   },
 }

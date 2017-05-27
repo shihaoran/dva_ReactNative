@@ -16,7 +16,6 @@ import { router } from './constants/router'
 import { colorTheme } from './constants/color'
 
 const reducerCreate = params => {
-  console.log(params)
   const defaultReducer = Reducer(params)
   return (state, action) => {
     console.log('ACTION:', action)
@@ -29,8 +28,8 @@ export default class APP extends Component {
     return (<Router createReducer={reducerCreate} sceneStyle={{ backgroundColor: colorTheme.backgroundColor }}>
       <Scene key="modal" component={Modal} >
         <Scene key="root" hideNavBar>
-          <Scene key="launch" component={Launch}  hideNavBar/>
-          <Scene key="tabbar" initial tabs tabBarStyle={styles.tabBarStyle}>
+          <Scene key="launch" initial component={Launch} hideNavBar />
+          <Scene key="tabbar" tabs tabBarStyle={styles.tabBarStyle}>
             <Scene key={router.favoriteTabKey} title={router.favoriteTabTitle} icon={TabIcon} navigationBarStyle={styles.navigationBarStyle} titleStyle={{ color: 'white' }}>
               <Scene
                 key={router.favoriteKey}
@@ -64,7 +63,7 @@ export default class APP extends Component {
                 rightButtonIconStyle={styles.rightTitleImageStyle}
               />
             </Scene>
-            <Scene key={router.myTabKey} title={router.myTabTitle} icon={TabIcon} navigationBarStyle={styles.navigationBarStyle} titleStyle={{ color: 'white' }}>
+            <Scene hideNavBar key={router.myTabKey} title={router.myTabTitle} icon={TabIcon} navigationBarStyle={styles.navigationBarStyle} titleStyle={{ color: 'white' }}>
               <Scene
                 key={router.myKey}
                 component={My}
