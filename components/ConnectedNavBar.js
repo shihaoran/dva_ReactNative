@@ -15,20 +15,26 @@ class ConnectedNavBar extends Component {
     this.props.dispatch(createAction('app/showCalendar')())
   }
 
+  onFeedback = () => {
+    this.props.dispatch(createAction('app/updateFeedback')())
+  }
+
   render() {
-    let date
+    let rightTitle
     if (this.props.sceneKey === router.favoriteKey) {
-      date = this.props.favoriteDate
+      rightTitle = this.props.favoriteDate
     } else if (this.props.sceneKey === router.kpiKey) {
-      date = this.props.kpiDate
+      rightTitle = this.props.kpiDate
     } else if (this.props.sceneKey === router.generalKey) {
-      date = this.props.generalDate
+      rightTitle = this.props.generalDate
+    } else if (this.props.sceneKey === router.feedbackKey) {
+      rightTitle = '发送'
     }
     return (
       <NavBar
         {...this.props}
-        rightTitle={date}
-        onRight={this.onRight}
+        rightTitle={rightTitle}
+        onRight={this.props.sceneKey === router.feedbackKey ? this.onFeedback : this.onRight}
       />
     )
   }

@@ -8,6 +8,7 @@ import Favorite from './containers/Favorite'
 import Kpi from './containers/Kpi'
 import General from './containers/General'
 import My from './containers/My'
+import Feedback from './containers/Feedback'
 
 import TabIcon from './components/TabIcon'
 import ConnectedNavBar from './components/ConnectedNavBar'
@@ -63,11 +64,20 @@ export default class APP extends Component {
                 rightButtonIconStyle={styles.rightTitleImageStyle}
               />
             </Scene>
-            <Scene hideNavBar key={router.myTabKey} title={router.myTabTitle} icon={TabIcon} navigationBarStyle={styles.navigationBarStyle} titleStyle={{ color: 'white' }}>
+            <Scene key={router.myTabKey} title={router.myTabTitle} icon={TabIcon} navigationBarStyle={styles.navigationBarStyle} titleStyle={{ color: 'white' }}>
               <Scene
+                hideNavBar
                 key={router.myKey}
                 component={My}
                 title={router.myTitle}
+              />
+              <Scene
+                hideNavBar={false}
+                key={router.feedbackKey}
+                component={Feedback}
+                navBar={ConnectedNavBar}
+                title={router.feedbackTitle}
+                rightButtonTextStyle={styles.rightTitleTextStyle}
               />
             </Scene>
           </Scene>

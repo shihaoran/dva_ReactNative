@@ -7,12 +7,14 @@ import {
   Text,
   Dimensions,
   TouchableOpacity,
+  Alert,
 } from 'react-native'
 import { connect } from 'dva'
 import { Actions } from 'react-native-router-flux'
 
 import { createAction } from '../utils'
 import { colorTheme } from '../constants/color'
+import { router } from '../constants/router'
 
 @connect(({ app }) => ({ ...app }))
 class My extends Component {
@@ -34,6 +36,26 @@ class My extends Component {
     this.props.dispatch(createAction('app/getMenuList')({ requestType: 0 }))
   }
 
+  onLogout = () => {
+    Alert.alert(
+      '系统提示',
+      '您确定要退出登录么',
+      [
+        { text: '确定', onPress: () => this.props.dispatch(createAction('app/logout')()) },
+        { text: '取消', onPress: () => console.log('Cancel Pressed'), style: 'cancel' },
+      ],
+      { cancelable: false },
+    )
+  }
+
+  renderListItem = (onPress, text) => (
+    <TouchableOpacity onPress={onPress}>
+      <View style={styles.menuItem}>
+        <Text style={styles.menuItemText}>{text}</Text>
+        <Image source={require('../images/right.png')} style={styles.menuItemIcon} />
+      </View>
+    </TouchableOpacity>
+    )
 
   render() {
     return (
@@ -46,23 +68,14 @@ class My extends Component {
         <View style={styles.menuContent}>
           <View style={styles.separation} />
           <View style={styles.line} />
-          <TouchableOpacity onPress={Actions.MyRecord}>
-            <View style={styles.menuItem}>
-            </View>
-          </TouchableOpacity>
+          {this.renderListItem(Actions[router.feedbackKey], '版本更新')}
           <View style={styles.line} />
-          <TouchableOpacity onPress={Actions.MyRecord}>
-            <View style={styles.menuItem}>
-            </View>
-          </TouchableOpacity>
+          {this.renderListItem(Actions[router.feedbackKey], '反馈意见')}
           <View style={styles.line} />
           <View style={styles.separation} />
           <View style={styles.separation} />
           <View style={styles.line} />
-          <TouchableOpacity onPress={Actions.MyRecord}>
-            <View style={styles.menuItem}>
-            </View>
-          </TouchableOpacity>
+          {this.renderListItem(this.onLogout, '退出登录')}
           <View style={styles.line} />
         </View>
         <Button title="Login" onPress={this.onLogin} />
@@ -118,12 +131,27 @@ const styles = StyleSheet.create({
   line: {
     height: 0.5,
     width: Dimensions.get('window').width,
-    backgroundColor: '#b7b7b7',
+    backgroundColor: colorTheme.tabBarBorder,
   },
   menuItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
     height: 40,
     width: Dimensions.get('window').width,
     backgroundColor: colorTheme.listItemBackground,
+  },
+  menuItemText: {
+    fontSize: 18,
+    color: '#404040',
+    position: 'absolute',
+    left: 20,
+  },
+  menuItemIcon: {
+    position: 'absolute',
+    right: 10,
+    height: 25,
+    width: 25,
+    tintColor: colorTheme.tabBarBorder,
   },
 })
 

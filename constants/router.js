@@ -7,11 +7,13 @@ export const router = {
   kpiKey: 'tab2_1',
   generalKey: 'tab3_1',
   myKey: 'tab4_1',
+  feedbackKey: 'tab4_2',
 
   favoriteTitle: '收藏',
   kpiTitle: 'KPI报表',
   generalTitle: '产品线报表',
   myTitle: '我的',
+  feedbackTitle: '反馈意见',
 
   favoriteTabKey: 'tab1',
   kpiTabKey: 'tab2',

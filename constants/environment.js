@@ -18,6 +18,8 @@ export const env = {
 
   pageLimit: 10,
 
+  toastPosition: -100,
+
 
   actionGetMenuList: 'app/getMenuList',
   actionGetMeasureList: 'app/getMeasureList',

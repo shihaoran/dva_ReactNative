@@ -16,6 +16,17 @@ export const login = async () => {
   }
 }
 
+export const logout = async () => {
+  try {
+    const status = await NativeModules.UuapAdapter.login();
+    console.log(status)
+    return {'status': status}
+  } catch (e) {
+    console.error(e);
+    return {'status': false}
+  }
+}
+
 export const getTicket = async () => {
   try {
     const a = await NativeModules.UuapAdapter.getTicket();

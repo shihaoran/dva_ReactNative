@@ -6,6 +6,7 @@ import { createAction } from '../utils'
 import * as uuapService from '../services/uuap'
 import * as apiService from '../services/api'
 import { env } from '../constants/environment'
+import { router } from '../constants/router'
 
 export default {
   namespace: 'app',
@@ -26,10 +27,14 @@ export default {
     isVisibleCalendar: false,
 
     measureData: [],
+    feedback: '',
   },
   reducers: {
     setUserName(state, { payload }) {
       return { ...state, userName: payload.login.username, login: true }
+    },
+    clearUserName(state) {
+      return { ...state, userName: '', login: false }
     },
     setToken(state, { payload }) {
       console.log(payload)
@@ -75,6 +80,9 @@ export default {
       }
       return { ...state }
     },
+    setFeedback(state, { payload }) {
+      return { ...state, feedback: payload.data }
+    },
   },
   effects: {
     * login({ payload }, { call, put }) {
@@ -83,6 +91,14 @@ export default {
         yield call(AsyncStorage.setItem, 'ifLogin', 'true')
         yield put(createAction('setUserName')({ login }))
         yield put(createAction('getInitData')())
+      }
+    },
+    * logout({ payload }, { call, put }) {
+      const logout = yield call(uuapService.logout, payload)
+      if (logout.status) {
+        yield call(AsyncStorage.setItem, 'ifLogin', 'false')
+        yield put(createAction('clearUserName')())
+        Actions.launch({ type: 'reset' })
       }
     },
     * getTicket({ payload }, { call, put }) {
@@ -162,9 +178,51 @@ export default {
         })
         Actions.tabbar({ type: 'reset' })
       } catch (error) {
-        Toast.show('This is a message', {
-          duration: Toast.durations.LONG,
-          position: Toast.positions.BOTTOM,
+        Toast.show('网络错误', {
+          duration: Toast.durations.SHORT,
+          position: env.toastPosition,
+          shadow: true,
+          animation: true,
+          hideOnPress: true,
+          delay: 0,
+        })
+      }
+    },
+    * updateFeedback({ payload }, { select, call, put }) {
+      yield put({ type: 'fetchingStart' })
+      try {
+        const { token } = yield call(uuapService.getToken, payload)
+        const { app } = yield select(state => state)
+        const requestParam = {
+          requestType: apiService.updateUserFeedback,
+          params: {
+            user: app.userName,
+            token,
+            content: app.feedback,
+          },
+        }
+        yield call(apiService.netRequest, { ...requestParam })
+        yield put({ type: 'fetchingEnd' })
+        yield put({
+          type: 'setFeedback',
+          payload: {
+            data: '',
+          },
+        })
+        Actions[router.myKey]({ type: 'reset' })
+        Toast.show('提交成功，感谢您的反馈', {
+          duration: Toast.durations.SHORT,
+          position: env.toastPosition,
+          shadow: true,
+          animation: true,
+          hideOnPress: true,
+          delay: 0,
+        })
+      } catch (e) {
+        console.log(e)
+        Toast.show('网络错误', {
+          duration: Toast.durations.SHORT,
+          position: env.toastPosition,
           shadow: true,
           animation: true,
           hideOnPress: true,
