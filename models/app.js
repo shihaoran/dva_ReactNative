@@ -20,6 +20,7 @@ export default {
     generalActiveMenu: '',
     kpiMenu: [],
     kpiActiveMenu: '',
+    activeMenu: '',
 
     favoriteDate: '2017-05-21',
     generalDate: '2017-05-21',
@@ -27,6 +28,7 @@ export default {
     isVisibleCalendar: false,
 
     measureData: [],
+    favoriteData: [],
     feedback: '',
   },
   reducers: {
@@ -43,14 +45,17 @@ export default {
     setMenu(state, { payload }) {
       console.log(payload)
       if (payload.requestType === env.menuType.kpi) {
-        return { ...state, kpiMenu: payload.data, kpiActiveMenu: payload.data[0].id }
+        return { ...state, kpiMenu: payload.data, kpiActiveMenu: payload.data[0].id, activeMenu: payload.data[0].id }
       } else if (payload.requestType === env.menuType.general) {
-        return { ...state, generalMenu: payload.data, generalActiveMenu: payload.data[0].id }
+        return { ...state, generalMenu: payload.data, generalActiveMenu: payload.data[0].id, activeMenu: payload.data[0].id }
       }
       return { ...state }
     },
     setMeasureData(state, { payload }) {
       return { ...state, measureData: payload.data }
+    },
+    setFavoriteData(state, { payload }) {
+      return { ...state, favoriteData: payload.data }
     },
     fetchingStart(state) {
       return { ...state, fetching: true }
@@ -69,14 +74,16 @@ export default {
         return { ...state, kpiDate: payload.data }
       } else if (payload.requestType === env.menuType.general) {
         return { ...state, generalDate: payload.data }
+      } else if (payload.requestType === env.menuType.favorite) {
+        return { ...state, favoriteDate: payload.data }
       }
       return { ...state }
     },
     setActiveMenu(state, { payload }) {
       if (payload.requestType === env.menuType.kpi) {
-        return { ...state, kpiActiveMenu: payload.data }
+        return { ...state, kpiActiveMenu: payload.data, activeMenu: payload.data }
       } else if (payload.requestType === env.menuType.general) {
-        return { ...state, generalActiveMenu: payload.data }
+        return { ...state, generalActiveMenu: payload.data, activeMenu: payload.data }
       }
       return { ...state }
     },
@@ -94,12 +101,10 @@ export default {
       }
     },
     * logout({ payload }, { call, put }) {
-      const logout = yield call(uuapService.logout, payload)
-      if (logout.status) {
-        yield call(AsyncStorage.setItem, 'ifLogin', 'false')
-        yield put(createAction('clearUserName')())
-        Actions.launch({ type: 'reset' })
-      }
+      yield call(AsyncStorage.setItem, 'ifLogin', 'false')
+      yield put(createAction('clearUserName')())
+      Actions.launch({ type: 'reset' })
+      yield call(uuapService.logout, payload)
     },
     * getTicket({ payload }, { call, put }) {
       const { ticket } = yield call(uuapService.getTicket, payload)
@@ -130,26 +135,23 @@ export default {
           data: response.Return,
         },
       })
-      yield put({
-        type: 'getMeasureList',
-        payload: {
-          menuId: response.Return[0].id,
-          menuType: 1,
-        },
-      })
     },
 
     * getMeasureList({ payload }, { select, call, put }) {
       yield put({ type: 'fetchingStart' })
       const { token } = yield call(uuapService.getToken, payload)
       const { app } = yield select(state => state)
+      // 如果请求参数中不含menu类型，则从activeMenu中取
+      const menuType = 'menuType' in payload ? payload.menuType : app.activeMenu === app.kpiActiveMenu ? env.menuType.kpi : env.menuType.general
+      // 默认menuId
+      const menuId = 'menuId' in payload ? payload.menuId : menuType === env.menuType.kpi ? app.kpiActiveMenu : app.generalActiveMenu
       const requestParam = {
         requestType: apiService.getMeasureList,
         params: {
           user: app.userName,
           token,
-          menuId: payload.menuId,
-          date: payload.menuType === env.menuType.kpi ? app.kpiDate : app.generalDate,
+          menuId,
+          date: menuType === env.menuType.kpi ? app.kpiDate : app.generalDate,
           offset: 0,
         },
       }
@@ -167,16 +169,18 @@ export default {
         yield put({
           type: 'getMenuList',
           payload: {
-            requestType: env.menuType.kpi,
+            requestType: env.menuType.general,
           },
         })
         yield put({
           type: 'getMenuList',
           payload: {
-            requestType: env.menuType.general,
+            requestType: env.menuType.kpi,
           },
         })
+        yield put({ type: 'getMeasureFavorites' })
         Actions.tabbar({ type: 'reset' })
+        Actions.tab2()
       } catch (error) {
         Toast.show('网络错误', {
           duration: Toast.durations.SHORT,
@@ -218,6 +222,77 @@ export default {
           hideOnPress: true,
           delay: 0,
         })
+      } catch (e) {
+        console.log(e)
+        Toast.show('网络错误', {
+          duration: Toast.durations.SHORT,
+          position: env.toastPosition,
+          shadow: true,
+          animation: true,
+          hideOnPress: true,
+          delay: 0,
+        })
+      }
+    },
+    * updateMeasureFavorite({ payload }, { select, call, put }) {
+      yield put({ type: 'fetchingStart' })
+      try {
+        const { token } = yield call(uuapService.getToken, payload)
+        const { app } = yield select(state => state)
+        const requestParam = {
+          requestType: apiService.updateMeasureFavorite,
+          params: {
+            user: app.userName,
+            token,
+            measureId: payload.measureId,
+            status: payload.status,
+          },
+        }
+        yield call(apiService.netRequest, { ...requestParam })
+        yield put({ type: 'fetchingEnd' })
+        Toast.show(payload.status === '1' ? '收藏成功' : '取消成功', {
+          duration: Toast.durations.SHORT,
+          position: env.toastPosition,
+          shadow: true,
+          animation: true,
+          hideOnPress: true,
+          delay: 0,
+        })
+      } catch (e) {
+        console.log(e)
+        Toast.show('网络错误', {
+          duration: Toast.durations.SHORT,
+          position: env.toastPosition,
+          shadow: true,
+          animation: true,
+          hideOnPress: true,
+          delay: 0,
+        })
+      }
+    },
+    * getMeasureFavorites({ payload }, { select, call, put }) {
+      yield put({ type: 'fetchingStart' })
+      try {
+        const { token } = yield call(uuapService.getToken, payload)
+        const { app } = yield select(state => state)
+        const requestParam = {
+          requestType: apiService.getMeasureFavorites,
+          params: {
+            user: app.userName,
+            token,
+            date: app.favoriteDate,
+            offset: 0,
+          },
+        }
+        const response = yield call(apiService.netRequest, { ...requestParam })
+        console.log(response.Return)
+        yield put({
+          type: 'setFavoriteData',
+          payload: {
+            data: response.Return,
+          },
+        })
+        yield put({ type: 'fetchingEnd' })
       } catch (e) {
         console.log(e)
         Toast.show('网络错误', {

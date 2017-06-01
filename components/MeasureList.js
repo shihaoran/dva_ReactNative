@@ -31,6 +31,9 @@ class MeasureList extends Component {
     <ListItem
       key={rowID}
       data={rowData}
+      dispatch={this.props.dispatch}
+      menuId={this.props.menuId}
+      menuType={this.props.menuType}
     />)
 
   _onRefresh = () => {

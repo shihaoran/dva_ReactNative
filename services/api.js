@@ -107,7 +107,7 @@ export function updateMeasureFavorite({ user, token, measureId, status }) {
         User: user,
       },
       Body: {
-        Action: env.actionUpdateUserFeedback,
+        Action: env.actionUpdateMeasureFavorite,
         ResponseType: 'json',
         RequestParam: {
           measureId: measureId,

@@ -14,6 +14,7 @@ export const env = {
   menuType: {
     kpi: 0,
     general: 1,
+    favorite: 2,
   },
 
   pageLimit: 10,
@@ -24,7 +25,7 @@ export const env = {
   actionGetMenuList: 'app/getMenuList',
   actionGetMeasureList: 'app/getMeasureList',
   actionGetMeasureFavorites: 'app/getMeasureFavorites',
-  actionUpdateMeasureFavorites: 'app/updateMeasureFavorites',
+  actionUpdateMeasureFavorite: 'app/updateMeasureFavorite',
   actionUpdateUserFeedback: 'app/updateUserFeedback',
 }
 

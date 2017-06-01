@@ -14,12 +14,25 @@ import TabIcon from './components/TabIcon'
 import ConnectedNavBar from './components/ConnectedNavBar'
 
 import { router } from './constants/router'
+import { env } from './constants/environment'
 import { colorTheme } from './constants/color'
+import { createAction } from './utils'
 
 const reducerCreate = params => {
   const defaultReducer = Reducer(params)
   return (state, action) => {
     console.log('ACTION:', action)
+    if (action.key === router.favoriteTabKey) {
+      _app._store.dispatch(createAction('app/getMeasureFavorites')())
+    } else if (action.key === router.kpiTabKey) {
+      _app._store.dispatch(createAction('app/getMeasureList')({
+        menuType: env.menuType.kpi,
+      }))
+    } else if (action.key === router.generalTabKey) {
+      _app._store.dispatch(createAction('app/getMeasureList')({
+        menuType: env.menuType.general,
+      }))
+    }
     return defaultReducer(state, action)
   }
 }

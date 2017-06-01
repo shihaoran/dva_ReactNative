@@ -6,18 +6,18 @@ import { persistStore, autoRehydrate } from 'redux-persist'
 import { registerModels } from './models'
 import APP from './router'
 
-const app = dva({
+_app = dva({
   initialState: {},
   extraEnhancers: [autoRehydrate()],
   onError(e) {
     console.log('onError', e)
   },
 })
-registerModels(app)
-app.router(() => <APP />)
-const App = app.start()
+registerModels(_app)
+_app.router(() => <APP />)
+const App = _app.start()
 
 // eslint-disable-next-line no-underscore-dangle
-persistStore(app._store, { storage: AsyncStorage })
+persistStore(_app._store, { storage: AsyncStorage })
 
 AppRegistry.registerComponent('DvaStarter', () => App)

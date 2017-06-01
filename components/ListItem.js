@@ -11,17 +11,39 @@ import {
 import Swipeout from 'react-native-swipeout'
 
 import { colorTheme } from '../constants/color'
+import { env } from '../constants/environment'
+import { createAction } from '../utils'
 
 
 const ListItem = (props) => {
   const b1 = parseFloat(props.data.b1) >= 0
   const b2 = parseFloat(props.data.b2) >= 0
 
+  const onFavorite = () => {
+    props.dispatch(createAction('app/updateMeasureFavorite')({
+      measureId: props.data.measure_id,
+      status: props.menuType === env.menuType.favorite || props.data.isFavorite === '1' ? '2' : '1',
+    }))
+    if (props.menuType === env.menuType.favorite) {
+      const fun = () => {
+        props.dispatch(createAction('app/getMeasureFavorites')())
+      }
+      setTimeout(fun, 500)
+    } else {
+      props.dispatch(createAction('app/getMeasureList')({
+        menuId: props.menuId,
+        menuType: props.menuType,
+      }))
+    }
+  }
+
   const swipeoutBtns = [
     {
-      text: '收藏',
+      text: props.menuType === env.menuType.favorite || props.data.isFavorite === '1' ? '取消收藏' : '收藏',
+      onPress: onFavorite,
     },
   ]
+
 
   return (
     <Swipeout
