@@ -16,9 +16,61 @@ export default {
     userName: '',
     token: '',
 
-    generalMenu: [],
+    generalMenu: [
+      {
+        desc: '',
+        id: 539,
+        title: '手百',
+      },
+      {
+        desc: '',
+        id: 538,
+        title: 'Feed',
+      },
+      {
+        desc: '',
+        id: 540,
+        title: '视频',
+      },
+      {
+        desc: '',
+        id: 541,
+        title: '大搜整体',
+      },
+      {
+        desc: '',
+        id: 534,
+        title: '推荐产品',
+      },
+      {
+        desc: '',
+        id: 537,
+        title: '百家号',
+      },
+    ],
     generalActiveMenu: '',
-    kpiMenu: [],
+    kpiMenu: [
+      {
+        desc: '',
+        id: 533,
+        title: '手百',
+      },
+      {
+        desc: '',
+        id: 531,
+        title: 'Feed',
+      },
+      {
+        desc: '',
+        id: 532,
+        title: '视频',
+      },
+      {
+        desc: '',
+        id: 535,
+        title: '搜索',
+      },
+    ],
     kpiActiveMenu: '',
     activeMenu: '',
 
@@ -27,8 +79,42 @@ export default {
     kpiDate: '2017-05-20',
     isVisibleCalendar: false,
 
-    measureData: [],
-    favoriteData: [],
+    measureData: {
+      rows: [
+        {
+          b1: '-8.16',
+          b1Name: '周同比',
+          b2: '-6.73',
+          b2Name: '日环比',
+          isFavorite: '1',
+          measure_id: 30,
+          reverse: 1,
+          sub_title: '',
+          title: '单次启动崩溃率/手百',
+          unit: '%',
+          value: '0.07',
+        },
+      ],
+      total: 1,
+    },
+    favoriteData: {
+      rows: [
+        {
+          b1: '-8.16',
+          b1Name: '周同比',
+          b2: '-6.73',
+          b2Name: '日环比',
+          isFavorite: '1',
+          measure_id: 30,
+          reverse: 1,
+          sub_title: '',
+          title: '单次启动崩溃率/手百',
+          unit: '%',
+          value: '0.07',
+        },
+      ],
+      total: 1,
+    },
     feedback: '',
   },
   reducers: {
@@ -182,6 +268,7 @@ export default {
         Actions.tabbar({ type: 'reset' })
         Actions.tab2()
       } catch (error) {
+        console.log(error)
         Toast.show('网络错误', {
           duration: Toast.durations.SHORT,
           position: env.toastPosition,

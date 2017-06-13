@@ -20,7 +20,8 @@ import { router } from '../constants/router'
 class My extends Component {
 
   onLogin = () => {
-    this.props.dispatch(createAction('app/login')())
+    Actions.detail()
+    //this.props.dispatch(createAction('app/login')())
   }
 
   onGetTicket = () => {

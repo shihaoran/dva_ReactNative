@@ -9,6 +9,7 @@ import Kpi from './containers/Kpi'
 import General from './containers/General'
 import My from './containers/My'
 import Feedback from './containers/Feedback'
+import Detail from './containers/Detail'
 
 import TabIcon from './components/TabIcon'
 import ConnectedNavBar from './components/ConnectedNavBar'
@@ -42,8 +43,8 @@ export default class APP extends Component {
     return (<Router createReducer={reducerCreate} sceneStyle={{ backgroundColor: colorTheme.backgroundColor }}>
       <Scene key="modal" component={Modal} >
         <Scene key="root" hideNavBar>
-          <Scene key="launch" initial component={Launch} hideNavBar />
-          <Scene key="tabbar" tabs tabBarStyle={styles.tabBarStyle}>
+          <Scene key="launch" component={Launch} hideNavBar />
+          <Scene key="tabbar" initial tabs tabBarStyle={styles.tabBarStyle}>
             <Scene key={router.favoriteTabKey} title={router.favoriteTabTitle} icon={TabIcon} navigationBarStyle={styles.navigationBarStyle} titleStyle={{ color: 'white' }}>
               <Scene
                 key={router.favoriteKey}
@@ -80,6 +81,7 @@ export default class APP extends Component {
             <Scene key={router.myTabKey} title={router.myTabTitle} icon={TabIcon} navigationBarStyle={styles.navigationBarStyle} titleStyle={{ color: 'white' }}>
               <Scene
                 hideNavBar
+                initial
                 key={router.myKey}
                 component={My}
                 title={router.myTitle}
@@ -89,6 +91,13 @@ export default class APP extends Component {
                 key={router.feedbackKey}
                 component={Feedback}
                 navBar={ConnectedNavBar}
+                title={router.feedbackTitle}
+                rightButtonTextStyle={styles.rightTitleTextStyle}
+              />
+              <Scene
+                hideNavBar={false}
+                key="detail"
+                component={Detail}
                 title={router.feedbackTitle}
                 rightButtonTextStyle={styles.rightTitleTextStyle}
               />
