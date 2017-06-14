@@ -10,6 +10,9 @@ export const env = {
   platform: (Platform.OS === 'ios') ? 'ios' : 'android',
   clientType: 'module',
   uuid: DeviceInfo.getUniqueID(),
+  osVersion: DeviceInfo.getSystemVersion(),
+  appVersion: '1.7',
+  baiduId: '',
 
   menuType: {
     kpi: 0,
@@ -27,5 +30,7 @@ export const env = {
   actionGetMeasureFavorites: 'app/getMeasureFavorites',
   actionUpdateMeasureFavorite: 'app/updateMeasureFavorite',
   actionUpdateUserFeedback: 'app/updateUserFeedback',
+  actionGetDimensionList: 'app/getDimensionList',
+  actionGetMeasureSeries: 'app/getMeasureSeries',
 }
 

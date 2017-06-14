@@ -41,67 +41,65 @@ const reducerCreate = params => {
 export default class APP extends Component {
   render() {
     return (<Router createReducer={reducerCreate} sceneStyle={{ backgroundColor: colorTheme.backgroundColor }}>
-      <Scene key="modal" component={Modal} >
-        <Scene key="root" hideNavBar>
-          <Scene key="launch" component={Launch} hideNavBar />
-          <Scene key="tabbar" initial tabs tabBarStyle={styles.tabBarStyle}>
-            <Scene key={router.favoriteTabKey} title={router.favoriteTabTitle} icon={TabIcon} navigationBarStyle={styles.navigationBarStyle} titleStyle={{ color: 'white' }}>
-              <Scene
-                key={router.favoriteKey}
-                component={Favorite}
-                navBar={ConnectedNavBar}
-                title={router.favoriteTitle}
-                rightButtonTextStyle={styles.rightTitleTextStyle}
-                rightButtonImage={require('./images/calendar.png')}
-                rightButtonIconStyle={styles.rightTitleImageStyle}
-              />
-            </Scene>
-            <Scene key={router.kpiTabKey} initial title={router.kpiTabTitle} icon={TabIcon} navigationBarStyle={styles.navigationBarStyle} titleStyle={{ color: 'white' }}>
-              <Scene
-                key={router.kpiKey}
-                component={Kpi}
-                navBar={ConnectedNavBar}
-                title={router.kpiTitle}
-                rightButtonTextStyle={styles.rightTitleTextStyle}
-                rightButtonImage={require('./images/calendar.png')}
-                rightButtonIconStyle={styles.rightTitleImageStyle}
-              />
-            </Scene>
-            <Scene key={router.generalTabKey} title={router.generalTabTitle} icon={TabIcon} navigationBarStyle={styles.navigationBarStyle} titleStyle={{ color: 'white' }}>
-              <Scene
-                key={router.generalKey}
-                component={General}
-                navBar={ConnectedNavBar}
-                title={router.generalTitle}
-                rightButtonTextStyle={styles.rightTitleTextStyle}
-                rightButtonImage={require('./images/calendar.png')}
-                rightButtonIconStyle={styles.rightTitleImageStyle}
-              />
-            </Scene>
-            <Scene key={router.myTabKey} title={router.myTabTitle} icon={TabIcon} navigationBarStyle={styles.navigationBarStyle} titleStyle={{ color: 'white' }}>
-              <Scene
-                hideNavBar
-                initial
-                key={router.myKey}
-                component={My}
-                title={router.myTitle}
-              />
-              <Scene
-                hideNavBar={false}
-                key={router.feedbackKey}
-                component={Feedback}
-                navBar={ConnectedNavBar}
-                title={router.feedbackTitle}
-                rightButtonTextStyle={styles.rightTitleTextStyle}
-              />
-              <Scene
-                hideNavBar={false}
-                key="detail"
-                component={Detail}
-                title={router.feedbackTitle}
-                rightButtonTextStyle={styles.rightTitleTextStyle}
-              />
-            </Scene>
+      <Scene key="root" hideNavBar>
+        <Scene key="launch" initial component={Launch} hideNavBar />
+        <Scene key="tabbar" tabs tabBarStyle={styles.tabBarStyle}>
+          <Scene key={router.favoriteTabKey} title={router.favoriteTabTitle} icon={TabIcon} navigationBarStyle={styles.navigationBarStyle} titleStyle={{ color: 'white' }}>
+            <Scene
+              key={router.favoriteKey}
+              component={Favorite}
+              navBar={ConnectedNavBar}
+              title={router.favoriteTitle}
+              rightButtonTextStyle={styles.rightTitleTextStyle}
+              rightButtonImage={require('./images/calendar.png')}
+              rightButtonIconStyle={styles.rightTitleImageStyle}
+            />
+          </Scene>
+          <Scene key={router.kpiTabKey} initial title={router.kpiTabTitle} icon={TabIcon} navigationBarStyle={styles.navigationBarStyle} titleStyle={{ color: 'white' }}>
+            <Scene
+              key={router.kpiKey}
+              component={Kpi}
+              navBar={ConnectedNavBar}
+              title={router.kpiTitle}
+              rightButtonTextStyle={styles.rightTitleTextStyle}
+              rightButtonImage={require('./images/calendar.png')}
+              rightButtonIconStyle={styles.rightTitleImageStyle}
+            />
+          </Scene>
+          <Scene key={router.generalTabKey} title={router.generalTabTitle} icon={TabIcon} navigationBarStyle={styles.navigationBarStyle} titleStyle={{ color: 'white' }}>
+            <Scene
+              key={router.generalKey}
+              component={General}
+              navBar={ConnectedNavBar}
+              title={router.generalTitle}
+              rightButtonTextStyle={styles.rightTitleTextStyle}
+              rightButtonImage={require('./images/calendar.png')}
+              rightButtonIconStyle={styles.rightTitleImageStyle}
+            />
+          </Scene>
+          <Scene key={router.myTabKey} title={router.myTabTitle} icon={TabIcon} navigationBarStyle={styles.navigationBarStyle} titleStyle={{ color: 'white' }}>
+            <Scene
+              hideNavBar
+              initial
+              key={router.myKey}
+              component={My}
+              title={router.myTitle}
+            />
+            <Scene
+              hideNavBar={false}
+              key={router.feedbackKey}
+              component={Feedback}
+              navBar={ConnectedNavBar}
+              title={router.feedbackTitle}
+              rightButtonTextStyle={styles.rightTitleTextStyle}
+            />
+            <Scene
+              hideNavBar={false}
+              key="detail"
+              component={Detail}
+              title={router.feedbackTitle}
+              rightButtonTextStyle={styles.rightTitleTextStyle}
+            />
           </Scene>
         </Scene>
       </Scene>

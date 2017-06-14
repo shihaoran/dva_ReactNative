@@ -9,6 +9,9 @@ const head = {
   Client: env.platform,
   ClientType: env.clientType,
   UUID: env.uuid,
+  BAIDUID: env.baiduId,
+  OSVersion: env.osVersion,
+  AppVersion: env.appVersion,
 }
 
 export async function netRequest({ requestType, params }) {
@@ -136,6 +139,60 @@ export function updateUserFeedback({ user, token, content }) {
         ResponseType: 'json',
         RequestParam: {
           content: content,
+        }
+      },
+    })
+  });
+}
+
+export function getDimensionList({ user, token, measureId, date, checkAttributes, timeCondition }) {
+  return request(`${env.apiEndPoint}?at=${token}`, {
+    method: 'POST',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      Header: {
+        ...head,
+        ST: token,
+        User: user,
+      },
+      Body: {
+        Action: env.actionGetDimensionList,
+        ResponseType: 'json',
+        RequestParam: {
+          measureId: measureId,
+          date: date,
+          checkAttributes: checkAttributes,
+          timeCondition: timeCondition,
+        }
+      },
+    })
+  });
+}
+
+export function getMeasureSeries({ user, token, measureId, date, checkAttributes, timeCondition }) {
+  return request(`${env.apiEndPoint}?at=${token}`, {
+    method: 'POST',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      Header: {
+        ...head,
+        ST: token,
+        User: user,
+      },
+      Body: {
+        Action: env.actionGetMeasureSeries,
+        ResponseType: 'json',
+        RequestParam: {
+          measureId: measureId,
+          date: date,
+          checkAttributes: checkAttributes,
+          timeCondition: timeCondition,
         }
       },
     })
