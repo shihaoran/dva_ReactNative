@@ -27,7 +27,7 @@ const styles = StyleSheet.create({
   cubeItem: {
     borderWidth: 1,
     borderColor: '#d9d9d9',
-    width: (Dimensions.get('window').width - 30) / 3,
+    width: (Dimensions.get('window').width - 40) / 3,
     height: 90,
     margin: 5,
     alignItems: 'center',
